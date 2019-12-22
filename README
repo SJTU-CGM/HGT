@@ -8,7 +8,7 @@
 
 ### Own source code: src/ (.perl)
 
-### Data needed:
+### Datasets needed:
     # genomes/: eukaryotic genomes
     # data/: RepeatMasker annotation, species id, etc.
     # fa/bosTau7.fa: cow reference genome
@@ -25,3 +25,7 @@
 ### Final result
     # nonN.fa: 100 non-redundant HGTs in cow genome
     # tree-filtered/: phylogenetic trees of these HGTs
+
+### Tips:
+    Only pipeline, source code and final result are displayed here.
+    To get more detailed datasets, please download http://cgm.sjtu.edu.cn/hgt/data/demo.tgz

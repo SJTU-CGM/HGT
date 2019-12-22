@@ -1,0 +1,2 @@
+hit_species	chr	start	end	strand	identity
+GCF_000002235.4_Spur_4.2_genomic	NW_011992278.1	608669	609010	-	0.968
