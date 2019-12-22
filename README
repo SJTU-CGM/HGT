@@ -1,0 +1,27 @@
+###########################################################
+### An example to identify HGTs in cow genome (bosTau7) ###
+###########################################################
+
+### Analysis pipeline: pipeline.sh (bash; Linux)
+
+### Softwares needed: perl5, lastz, RepeatMasker, BLAST, cd-hit-est, muscle, FastTreeMP, etc.
+
+### Own source code: src/ (.perl)
+
+### Data needed:
+    # genomes/: eukaryotic genomes
+    # data/: RepeatMasker annotation, species id, etc.
+    # fa/bosTau7.fa: cow reference genome
+
+### Intermediate results:
+    # segment/: short fragments
+    # axt/: raw output of lastz alignment
+    # cov/, iden50/, iden70/, close/, remote/: screened alignment regions
+    # gradient/: gradient stragety to merge overlapped region with different CRG scale
+    # tree/: hit species for each candidante HGT
+    # ERV/: remove HGTs overlapped ERVs
+    # all.fa, nonN.fa, remain.fa, filtered.fa, etc.
+
+### Final result
+    # nonN.fa: 100 non-redundant HGTs in cow genome
+    # tree-filtered/: phylogenetic trees of these HGTs
