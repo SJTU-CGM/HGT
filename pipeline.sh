@@ -11,6 +11,7 @@
 #####################################################################################
 # fragment length: 1kbp; overlap 200bp
 # reference genome: fa/bosTau7.fa (assembly id: GCF_000003205.5)
+perl src/chomp.pl fa/bosTau7.fa
 perl src/segment.pl fa/bosTau7.fa 1000 800 segment/bosTau7-seg1k-step0.8k.fa
 perl src/kmerGenome.pl fa/bosTau7.fa 4 > segment/bosTau7-4mer.txt # k=4
 perl src/kmer.pl segment/bosTau7-seg1k-step0.8k.fa 4 > segment/bosTau7-seg1k-step0.8k-4mer.txt
