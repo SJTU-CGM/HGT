@@ -66,7 +66,7 @@ do
     awk -F '-|\t' '{print $1"\t"$2+$4-1"\t"$2+$5-1}' iden50/$id.bed |sort -k1,1 -k2n,2 |uniq |perl src/mergeBed.pl - close/$id.bed
 done
 
-for id in `cat $i/remote.id` # 710 remote species (DRG group) --> directory /remote
+for id in `cat data/remote.id` # 710 remote species (DRG group) --> directory /remote
 do
     # threshold: identity>70% and aligned length>200bp
     awk -F '-|\t' '{print $1"\t"$2+$4-1"\t"$2+$5-1}' iden70/$id.bed |sort -k1,1 -k2n,2 |uniq |perl src/mergeBed.pl - tmp.txt
