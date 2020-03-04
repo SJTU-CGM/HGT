@@ -5,6 +5,8 @@
 ### example: bosTau7          #
 ###############################
 
+### Directory prepration
+mkdir segment axt cov iden50 iden70 remote close gradient gradient/individual gradient/individual tree tree-filtered
 
 #####################################################################################
 ### step 1: split the genome and screen short segments based on k-mer frequencies ###
@@ -60,13 +62,13 @@ done
 #####################################################
 ### step 3: identify HGTs according to LASTZ result #
 #####################################################
-for id in `cat data/close.id` # 113 close species (CRG group) --> directory /close
+for id in `cat data/close.id` # 113 close species (CRG group) --> directory close/
 do
     # threshold: identity>50%
     awk -F '-|\t' '{print $1"\t"$2+$4-1"\t"$2+$5-1}' iden50/$id.bed |sort -k1,1 -k2n,2 |uniq |perl src/mergeBed.pl - close/$id.bed
 done
 
-for id in `cat data/remote.id` # 710 remote species (DRG group) --> directory /remote
+for id in `cat data/remote.id` # 710 remote species (DRG group) --> directory remote/
 do
     # threshold: identity>70% and aligned length>200bp
     awk -F '-|\t' '{print $1"\t"$2+$4-1"\t"$2+$5-1}' iden70/$id.bed |sort -k1,1 -k2n,2 |uniq |perl src/mergeBed.pl - tmp.txt
@@ -76,7 +78,7 @@ cat remote/*bed |sort -k1,1 -k2n,2 |uniq > remote/merge.txt # all the regions ma
 
 # count CRG scale for each region that is matched to remote species
 # for species in CRG group, length coverage threshold is set 0.6 (with identity > 50%, it covers more than 60% of this region)
-perl src/screenHGT2.pl remote/merge.txt - 0.6 close/*bed |sort -k1,1 -k2n,2 |uniq > all.out
+perl src/screenHGT2.pl remote/merge.txt - 0.6 close/*bed |sort -k1,1 -k2n,2 |uniq > all.out # parallel running recommanded
 perl src/getHGTseqInfo.pl fa/bosTau7.fa all.out all.fa #fasta format, with corresponding CRG scale
 
 # remove sequences with "NNN" (gap region)
@@ -127,7 +129,7 @@ done
 
 # for each sequence, count the number of organisms in different groups
 # groups: fungi, plant, protozoa, invertebrate, vertebrate_other and vertebrate_mammalian
-cat gradient/total/*filter.id |sort |uniq > build.input.txt
+cat gradient/total/cov17.filter.id |sort |uniq > build.input.txt
 for id in `cat build.input.txt`
 do
     chr=$(echo $id | awk -F '-' '{print $1}')
@@ -149,16 +151,12 @@ done
 # if this sequence doesn't appear in any remote species, it's removed
 awk '{if($8-$7==0) print $1}' tree.info > tree.delete.id
 
-for ((j=0; j<=30; j ++))
-do
-    perl src/notin.pl tree.delete.id gradient/total/cov$j.filter.id > gradient/total/cov$j.filter2.id
-    perl src/filterFA_match.pl gradient/total/cov$j.filter.fa gradient/total/cov$j.filter2.id gradient/total/cov$j.filter2.fa
-    # remove redundancy using cd-hit-est, set identity 80%
-    cd-hit-est -i gradient/total/cov$j.filter2.fa -c 0.8 -o gradient/total/cov$j.filter2.cdhit0.8.fa    
-done
-
 # threshold of CRG scale: 17
 # Generate filtered HGTs (non-redundant): filtered.fa
+perl src/notin.pl tree.delete.id gradient/total/cov17.filter.id > gradient/total/cov17.filter2.id
+perl src/filterFA_match.pl gradient/total/cov17.filter.fa gradient/total/cov17.filter2.id gradient/total/cov17.filter2.fa
+# remove redundancy using cd-hit-est, set identity 80%
+cd-hit-est -i gradient/total/cov17.filter2.fa -c 0.8 -o gradient/total/cov17.filter2.cdhit0.8.fa
 cp gradient/total/cov17.filter2.cdhit0.8.fa filtered.fa
 grep ">" filtered.fa |awk '{print $1}' |tr -d ">" > filtered.id
 awk -F '-' '{print $1"\t"$2"\t"$3}' filtered.id |sort -k1,1 -k2n,2 > filtered.bed

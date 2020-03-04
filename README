@@ -1,31 +1,39 @@
-###########################################################
-### An example to identify HGTs in cow genome (bosTau7) ###
-###########################################################
+####################################################
+### Identification of HGTs in eukaryotic genomes ###
+###         Example: cow genome (bosTau7)        ###
+####################################################
 
-### Analysis pipeline: pipeline.sh (bash; Linux)
+### System requirements:
+    (1) Linux operation system, memory 1G or up
+    (2) Perl 5.8.5 or up
+    (3) Softwares needed: lastz (1.04.00), RepeatMasker (4.0.7), BLAST (2.5.0+), cd-hit-est (4.6), muscle (3.8.31), FastTreeMP (2.1.9), etc.
+    (4) Codes required:
+    	A. analysis pipeline: pipeline.sh
+	B. source code: all files in src/ (.perl)
 
-### Softwares needed: perl5, lastz, RepeatMasker, BLAST, cd-hit-est, muscle, FastTreeMP, etc.
+### Installtion guide:
+    Obtein the analysis pipeline (pipeline.sh) and all files in src/
 
-### Own source code: src/ (.perl)
+### Demo: Identify HGTs in cow genome, the above pipeline is an example
+    (1) Datasets needed:
+        A. genomes/: eukaryotic genomes
+    	B. data/: RepeatMasker annotation, species id, etc.
+    	C. fa/bosTau7.fa: cow reference genome
+    (2) Intermediate results:
+    	A. segment/: short fragments
+	B. axt/: raw output of lastz alignment
+	C. cov/, iden50/, iden70/, close/, remote/: screened alignment regions
+	D. gradient/: gradient stragety to merge overlapped region with different CRG scale
+	E. tree/: hit species for each candidante HGT
+	F. ERV/: remove HGTs overlapped ERVs
+    (3) fianl results:
+    	A. noERV.fa: 100 non-redundant HGTs in cow genome
+	B. tree-filtered/: phylogenetic trees of these HGTs
 
-### Datasets needed:
-    # genomes/: eukaryotic genomes
-    # data/: RepeatMasker annotation, species id, etc.
-    # fa/bosTau7.fa: cow reference genome
-
-### Intermediate results:
-    # segment/: short fragments
-    # axt/: raw output of lastz alignment
-    # cov/, iden50/, iden70/, close/, remote/: screened alignment regions
-    # gradient/: gradient stragety to merge overlapped region with different CRG scale
-    # tree/: hit species for each candidante HGT
-    # ERV/: remove HGTs overlapped ERVs
-    # all.fa, nonN.fa, remain.fa, filtered.fa, etc.
-
-### Final result
-    # nonN.fa: 100 non-redundant HGTs in cow genome
-    # tree-filtered/: phylogenetic trees of these HGTs
+### Instructions for use:
+    Prepare required datasets and code files, and keep them in right directories like that in demo.
+    Then, follow the pipeline step by step
 
 ### Tips:
     Only pipeline, source code and final result are displayed here.
-    To get more detailed datasets, please visit this site: http://cgm.sjtu.edu.cn/hgt
+    To get more detailed datasets and intermediate results, please visit this site: http://cgm.sjtu.edu.cn/hgt (passwd:"2019hgtpasswd")
